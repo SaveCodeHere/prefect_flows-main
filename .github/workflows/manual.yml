@@ -48,6 +48,5 @@ jobs:
         run: docker login ${{ secrets.DOCKER_REGISTRY }} -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_PASSWORD }}
       - name: register flows
         working-directory: ${{ matrix.flow-folder }}
-        run: $(echo "${{ matrix.flow-folder }}" | cut -d '/' -f2) --path ./
-        run: prefect deployment build $(echo "${{ matrix.flow-folder }}" -n action -q prod -ib docker-container/prod --apply
+        run: prefect deployment build $(echo "${{ matrix.flow-folder }}" | cut -d '/' -f2) --path ./ -n action -q prod -ib docker-container/prod --apply
 
