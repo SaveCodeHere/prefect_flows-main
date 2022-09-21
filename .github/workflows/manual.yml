@@ -44,27 +44,19 @@ jobs:
         run: pip install -r requirements.txt
       - name: Login to Prefect Cloud
         run: printf cloud | prefect cloud login -k ${{ secrets.PREFECT_CLOUD_KEY}} -w ${{ secrets.PREFECT_WORKSPACE_ID}}      
-      - name: docker login
-        run: docker login ${{ secrets.DOCKER_REGISTRY }} -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_PASSWORD }}
+      - name: Login to DockerHub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Build and push
+        uses: docker/build-push-action@v3
+        with:
+          push: true
+          tags: user/app:latest
       - name: register flows
         working-directory: ${{ matrix.flow-folder }}
         run: |
           ls
           prefect deployment build flow.py:healthcheck -n action -q prod -ib docker-container/prod --apply
-  handle-docker:
-    runs-on: ubuntu-latests
-    needs: register-flows
-    steps:
-     -
-        name: Login to DockerHub
-        uses: docker/login-action@v2
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-      -
-        name: Build and push
-        uses: docker/build-push-action@v3
-        with:
-          push: true
-          tags: user/app:latest
-  
+
