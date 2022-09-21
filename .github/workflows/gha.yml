@@ -42,8 +42,15 @@ jobs:
       - name: install dependencies
         working-directory: ${{ matrix.flow-folder }}
         run: pip install -r requirements.txt
-      - name: prefect login
-        run: prefect cloud login -k ${{ secrets.PREFECT_CLOUD_KEY }}  -w nhogeomaticdk/geomatic
+      - name: Authenticate to Prefect Cloud
+        env:
+         PREFECT_API_URL: https://api.prefect.cloud/api/accounts/${{ secrets.PREFECT_ACCOUNT_ID }}/workspaces/${{ secrets.PREFECT_WORKSPACE_ID }}
+          PREFECT_API_KEY: ${{ secrets.PREFECT_API_KEY }}
+        run: |
+          prefect profile create cloud
+          prefect profile use cloud
+          prefect config set PREFECT_API_URL=$PREFECT_API_URL
+          prefect config set PREFECT_API_KEY=$PREFECT_API_KEY
       - name: docker login
         run: docker login ${{ secrets.DOCKER_REGISTRY }} -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_PASSWORD }}
       - name: register flows
