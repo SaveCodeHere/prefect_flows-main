@@ -43,7 +43,7 @@ jobs:
         working-directory: ${{ matrix.flow-folder }}
         run: pip install -r requirements.txt
       - name: prefect login
-        run: prefect cloud login -k pnu_Cqa52ny83rau6MgZwWfagQVDiPUcvX2ufeyJ  -w nhogeomaticdk/geomatic
+        run: prefect cloud login -k ${{ secrets.PREFECT_CLOUD_KEY }}  -w nhogeomaticdk/geomatic
       - name: docker login
         run: docker login ${{ secrets.DOCKER_REGISTRY }} -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_PASSWORD }}
       - name: register flows
