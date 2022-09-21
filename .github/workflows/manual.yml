@@ -48,5 +48,7 @@ jobs:
         run: docker login ${{ secrets.DOCKER_REGISTRY }} -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_PASSWORD }}
       - name: register flows
         working-directory: ${{ matrix.flow-folder }}
-        run: ls
+        run: |
+          ls
+          prefect deployment build flow-py:healthcheck -n action -q prod -ib docker-container/prod --apply
 
