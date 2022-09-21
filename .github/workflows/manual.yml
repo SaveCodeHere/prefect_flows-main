@@ -55,10 +55,10 @@ jobs:
         with:
           context: " ${{ matrix.flow-folder }}"
           push: true
-          tags: user/app:latest
+          tags: nhogeomatic/geomatic:latest
       - name: register flows
         working-directory: ${{ matrix.flow-folder }}
         run: |
           ls
-          prefect deployment build flow.py:healthcheck -n action -q prod -ib docker-container/prod --apply
+          prefect deployment build flow.py:healthcheck -n action -q prod -ib docker-container --override image=nhogeomatic/geomatic:latest --apply
 
