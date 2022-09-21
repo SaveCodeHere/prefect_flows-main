@@ -1,6 +1,0 @@
-pandas
-pandas-gbq
-pyarrow
-oauth2client
-feedparser
-google-auth

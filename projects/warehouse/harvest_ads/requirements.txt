@@ -1,5 +1,0 @@
-prefect[azure]
-azure-identity
-azure-keyvault-secrets
-azure-storage-blob
-pymongo[srv]

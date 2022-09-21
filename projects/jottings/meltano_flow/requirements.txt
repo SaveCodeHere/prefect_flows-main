@@ -1,2 +1,0 @@
-meltano
-prefect==1.2.4
