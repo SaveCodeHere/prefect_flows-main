@@ -18,6 +18,18 @@ def log_platform_info():
 def healthcheck():
     log_platform_info()
 
-
-if __name__ == "__main__":
+    
+with Flow("healthcheck") as flow:
     healthcheck()
+
+flow.storage = Docker(
+    registry_url="https://index.docker.io/v2/",
+    image_tag="latest",
+    dockerfile='Dockerfile'
+)
+flow.executor = LocalExecutor()
+
+if __name__ == '__main__':
+    flow.run()
+
+
