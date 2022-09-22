@@ -11,16 +11,14 @@ Under the specific folders, there are folders that can correspond to specific fl
 This flow has a few pros and cons. On the plus side:
 
 - The flows are almost perfectly independent, and can built on different images with different and potentially incompatible programs and libraries.
-- It follows a template, so that new flows can be created simply by copying the existing boilerplate and focusing on the logic of the flow.
 - Deploying is done through the github actions file, no custom python code necessary.
 - Flows are registered in parallel.
 - It is easy to redeploy all flows at once, which will rebuild and potentially update the docker images - a big security win.
 
 On the minus side:
 - Although the github actions file is fairly short, it contains a few bits that are hard to read.
-- For new developers, there is a lot of boilerplate.
 - Because the flows are independent, every flow generates a docker image. The container registry might get big.
 
 This particular example does not contain dev/test/prod references. For users with different tenants, it is possible to create several github action files triggering on different branches. For single-tenant users, it is possible repurpose the projects to reflect dev/test/prod environments. Once again, different github actions would trigger on different branches.
 
-In this example, there is only one trigger: `workflow_dispatch` - meaning that we have to trigger it manually. In most scenarios, we might want to trigger it both on merges and periodically, rebuilding and updating the images regularaly. This would reregister the flow, which seems to increment the flow version even though nothing has changed.
+In this example, there is only one trigger: `workflow_dispatch` - meaning that we have to trigger it manually. In most scenarios, we might want to trigger it both on merges and periodically, rebuilding and updating the images regularly. This would reregister the flow, which seems to increment the flow version even though nothing has changed.
