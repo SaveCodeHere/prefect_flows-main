@@ -3,5 +3,6 @@ RUN apt update
 RUN apt upgrade -y
 
 ADD flow.py /opt/prefect/flows
+ADD requirements.txt .
 
 RUN pip install -r requirements.txt
